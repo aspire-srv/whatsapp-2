@@ -5,8 +5,10 @@ import Sidebar from "../../components/Sidebar";
 import ChatScreen from "../../components/ChatScreen";
 import { auth, db } from "../../firebase";
 import getRecipientEmail from "../../utils/getRecipientEmail";
+
  function Chat({ chat, messages }) {
    const [user] = useAuthState(auth);
+
    return (
      <Container>
      <Head>
@@ -31,7 +33,7 @@ import getRecipientEmail from "../../utils/getRecipientEmail";
    .orderBy("timestamp", "asc")
    .get();
 
-   const messages = messagesRes.docs.map(doc => ({
+   const messages = messagesRes.docs.map((doc) => ({
      id : doc.id,
      ...doc.data()
    })).map(messages => ({
@@ -44,17 +46,15 @@ import getRecipientEmail from "../../utils/getRecipientEmail";
 
    const chat = {
      id : chatRes.id,
-     ...chatRes.data()
+     ...chatRes.data(),
    }
-
-   console.log(chat, messages);
 
    return {
      props : {
        messages: JSON.stringify(messages),
        chat: chat
-     }
-   }
+     },
+   };
  }
 
 const Container = styled.div`
