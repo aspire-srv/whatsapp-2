@@ -6,6 +6,8 @@ import { Avatar , IconButton} from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import SendIcon from '@material-ui/icons/Send';
 import MicIcon from '@material-ui/icons/Mic';
 import { useCollection } from "react-firebase-hooks/firestore";
 import Message from "./Message"
@@ -80,6 +82,7 @@ const [recipientSnapshot] = useCollection(
 
     const recipient = recipientSnapshot?.docs?.[0]?.data();
   const recipientEmail = getRecipientEmail(chat.users, user);
+  const recipientName = recipientEmail.substr(0, recipientEmail.length-10);
 
 
   return(
@@ -94,7 +97,7 @@ const [recipientSnapshot] = useCollection(
 
         <HeaderInformation>
         <h3>
-        {recipientEmail}
+        {recipientName}
         </h3>
         {recipientSnapshot ? (
           <p>Last active :{' '}
@@ -111,10 +114,7 @@ const [recipientSnapshot] = useCollection(
         </HeaderInformation>
         <HeaderIcons>
         <IconButton>
-        <AttachFileIcon />
-        </IconButton>
-        <IconButton>
-        <MoreVertIcon />
+        <PowerSettingsNewIcon onClick={() => auth.signOut()} />
         </IconButton>
 
         </HeaderIcons>
@@ -126,7 +126,7 @@ const [recipientSnapshot] = useCollection(
        <InputContainer>
        <InsertEmoticonIcon />
          <Input value={input} onChange={e => setInput(e.target.value)} />
-         <button hidden disbled={!input} type="submit" onClick={sendMessage}>Send Message</button>
+         <Button disabled={!input} type="submit" onClick={sendMessage}> <SendIcon /></Button>
          <MicIcon />
        </InputContainer>
     </Container>
@@ -198,4 +198,9 @@ const MessageContainer = styled.div`
 padding:30px;
 background-color:#e5ded8;
 min-height:90vh;
+`;
+
+const Button = styled.button`
+border:none;
+
 `;
